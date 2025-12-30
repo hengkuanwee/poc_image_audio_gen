@@ -1,0 +1,10 @@
+diffusers
+transformers
+accelerate
+safetensors
+TTS
+piper-tts
+faster-whisper
+torch>=2.4.0
+torchaudio>=2.4.0
+nvidia-cudnn-cu12==9.1.0.70

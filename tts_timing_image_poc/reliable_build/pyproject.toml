@@ -1,0 +1,25 @@
+[project]
+name = "tts-image-video-gen"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "piper-tts",
+    "faster-whisper",
+    "diffusers",
+    "transformers",
+    "accelerate",
+    "safetensors",
+    "moviepy==1.0.3",
+    "opencv-python>=4.12.0.88",
+]
+
+[[tool.uv.index]]
+name = "pytorch-nightly"
+url = "https://download.pytorch.org/whl/nightly/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-nightly" }
+torchvision = { index = "pytorch-nightly" }
+torchaudio = { index = "pytorch-nightly" }

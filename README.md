@@ -1,1 +1,2 @@
-# poc_image_audio_gen
+source .venv/bin/activate [Deprecated]
+source .venv311/bin/activate
