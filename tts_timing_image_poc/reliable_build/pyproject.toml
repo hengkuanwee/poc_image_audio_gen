@@ -1,25 +1,45 @@
 [project]
 name = "tts-image-video-gen"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 dependencies = [
-    "pandas",
-    "piper-tts",
-    "faster-whisper",
-    "diffusers",
-    "transformers",
-    "accelerate",
-    "safetensors",
-    "moviepy==1.0.3",
-    "opencv-python>=4.12.0.88",
+  "pandas",
+  "piper-tts",
+  "moviepy==1.0.3",
+  "opencv-python>=4.12.0.88",
 ]
 
+[project.optional-dependencies]
+# Shared ML utilities (but not torch itself)
+ml = [
+  "transformers",
+  "accelerate",
+  "safetensors",
+]
+
+# CPU install: speech-to-text etc (no torch)
+cpu = [
+  "faster-whisper",
+]
+
+# GPU install: image generation + torch stack (Linux/NVIDIA only)
+gpu = [
+  "diffusers",
+  "torch; sys_platform == 'linux' and platform_machine == 'x86_64'",
+  "torchvision; sys_platform == 'linux' and platform_machine == 'x86_64'",
+  "torchaudio; sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+
+# --- uv config for GPU torch wheels (Linux CUDA nightly) ---
 [[tool.uv.index]]
-name = "pytorch-nightly"
+name = "pytorch-nightly-cu124"
 url = "https://download.pytorch.org/whl/nightly/cu124"
 explicit = true
 
 [tool.uv.sources]
-torch = { index = "pytorch-nightly" }
-torchvision = { index = "pytorch-nightly" }
-torchaudio = { index = "pytorch-nightly" }
+torch = { index = "pytorch-nightly-cu124", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" }
+torchvision = { index = "pytorch-nightly-cu124", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" }
+torchaudio = { index = "pytorch-nightly-cu124", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" }
+
+[tool.uv]
+prerelease = "allow"
